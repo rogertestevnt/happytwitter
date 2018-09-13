@@ -1,31 +1,36 @@
 package sample.study.happytwitter.instrumented.twitersearch
 
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.IdlingRegistry
+import android.support.test.espresso.IdlingResource
+import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
-import epson.com.br.rewards.androidapp.utils.JsonFunctions
-import kotlinx.android.synthetic.main.usertweets_finduser_view.view.*
-import org.junit.Assert
+import android.util.Log
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sample.study.happytwitter.R
 import sample.study.happytwitter.instrumented.GenericTestClass
 import sample.study.happytwitter.utils.CommonTestFunctions
-import java.lang.Thread.sleep
+import sample.study.happytwitter.utils.EspressoIdlingResource
 
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class TwitterSearchInstrumented : GenericTestClass() {
 
-    private var validTwitterName: String = ""
+    private lateinit var validTwitterName: String
     private var invalidTwitterName: String = "abc"
     private val disabledTwitterName: String = "disabled"
 
     @Before
     override fun beforeRun() {
         super.beforeRun()
-        validTwitterName = jsonFunctions.jsonContents.first().screen_name }
+        validTwitterName = jsonFunctions.jsonContents.first().screen_name
+    }
 
     @Test
     fun verifyTwitterSearchView() {
@@ -49,7 +54,6 @@ class TwitterSearchInstrumented : GenericTestClass() {
     @Test
     fun verifyValidTwitterUser() {
         typeUser(validTwitterName)
-        sleep(3000)
         CommonTestFunctions.assertElementIsDisplayed(R.id.profile_picture_imageview)
         CommonTestFunctions.pressBack()
     }
@@ -59,7 +63,6 @@ class TwitterSearchInstrumented : GenericTestClass() {
         val users = jsonFunctions.jsonContents
         users.forEach  {
             typeUser(it.screen_name)
-            sleep(3000)
             CommonTestFunctions.assertElementIsDisplayed(R.id.profile_picture_imageview)
             CommonTestFunctions.pressBack()
         }
@@ -67,6 +70,8 @@ class TwitterSearchInstrumented : GenericTestClass() {
 
     private fun typeUser(twitterUser:String){
         CommonTestFunctions.typeText(R.id.username_edittext, twitterUser)
+        Log.v("Idling Resource", testName.methodName + "screen name typed!")
+
     }
 
 

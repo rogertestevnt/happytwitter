@@ -1,6 +1,9 @@
 package sample.study.happytwitter.presentation.usertweets.finduser
 
+import android.support.test.espresso.idling.CountingIdlingResource
+import android.util.Log
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
 import retrofit2.HttpException
@@ -15,10 +18,12 @@ import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UnknownError
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UserDisabled
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UserNotFound
+import sample.study.happytwitter.utils.EspressoIdlingResource
 import sample.study.happytwitter.utils.schedulers.ISchedulerProvider
 import javax.inject.Inject
 
 class FindUserViewModel @Inject constructor(
+
     private val twitterRepository: ITwitterRepo,
     private val schedulerProvider: ISchedulerProvider
 ) : BaseViewModel<FindUserAction, FindUserResult, FindUserViewState>() {
@@ -41,6 +46,8 @@ class FindUserViewModel @Inject constructor(
 
   private val searchUserProcessor = ObservableTransformer<SearchUserAction, SearchUserResult> { actions ->
     actions.flatMap { action ->
+      EspressoIdlingResource.increment()
+      Log.v("Idling Resource", "Resource Incremented - IDLE State ON")
       twitterRepository.getUser(action.username)
           // replace _normal from image so that we have a decent profile image to load.
           .map { user -> user.copy(profile_image_url = user.profile_image_url?.replace("_normal", "_400x400")) }
@@ -57,9 +64,13 @@ class FindUserViewModel @Inject constructor(
               UnknownError(error)
             }
           }
+              .doFinally{
+                EspressoIdlingResource.decrement()
+                Log.v("Idling Resource", "Resource Decremented - IDLE State OFF")
+              }
           .subscribeOn(schedulerProvider.io())
           .observeOn(schedulerProvider.ui())
-          .startWith(SearchUserResult.Loading)
+              .startWith(SearchUserResult.Loading)
     }
   }
 

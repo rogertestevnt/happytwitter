@@ -12,9 +12,11 @@ import sample.study.happytwitter.data.twitter.TwitterUser
 import sample.study.happytwitter.data.twitter.remote.TwitterAPI
 import sample.study.happytwitter.data.twitter.remote.TwitterError
 import java.net.HttpURLConnection
+import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
 class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunctions) : TwitterAPI {
 
@@ -23,21 +25,28 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
       val disabledError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(63, null)))
       val errorBody = Gson().toJson(disabledError)
 
-      return Single.error(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
-              ResponseBody.create(MediaType.parse(""), errorBody))))
+      return Single.create {
+        Timer().schedule(delay = 3000){
+          it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
+                  ResponseBody.create(MediaType.parse(""), errorBody))))
+        }
+      }
     }
-
 
     val user = jsonFunctions.jsonContents.find { it.screen_name.toLowerCase() == screenName.toLowerCase() }
     if(user != null) {
-      return Single.just(user).delay(3, TimeUnit.SECONDS)
+      return Single.just(user).delay(5, TimeUnit.SECONDS)
     }
 
     val notFoundError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(50, "not found")))
     val errorBody = Gson().toJson(notFoundError)
 
-    return Single.error(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
-            ResponseBody.create(MediaType.parse(""), errorBody))))
+    return Single.create {
+      Timer().schedule(delay = 3000) {
+        it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
+                ResponseBody.create(MediaType.parse(""), errorBody))))
+      }
+    }
   }
 
   override fun getTweetsByUser(screenName: String): Single<List<TwitterTweet>> {
