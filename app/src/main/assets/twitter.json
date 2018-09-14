@@ -25,6 +25,15 @@
         "profile_link_color": "00AA55",
         "profile_banner_url": "https://pbs.twimg.com/profile_banners/180463340/1503946156",
         "profile_image_url" : "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"
+    },
+    {
+        "id":4,
+        "name" : "John Mock",
+        "screen_name": "private",
+        "description": "mock profile",
+        "profile_link_color": "00AA55",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/180463340/1503946156",
+        "profile_image_url" : "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"
     }
 
     ]

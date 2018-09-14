@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import sample.study.happytwitter.data.twitter.TwitterTweet
 import sample.study.happytwitter.data.twitter.TwitterUser
 import java.io.IOException
 import java.io.InputStream
@@ -36,5 +37,29 @@ class JsonFunctions @Inject constructor(private val context: Context){
       }
 
       return gson.fromJson(builder!!.toString(), object : TypeToken<List<TwitterUser>>() {}.type)
+    }
+
+  val jsonTweetsListContents: List<TwitterTweet>
+    get() {
+      var inputStream: InputStream? = null
+      var builder: StringBuilder? = null
+
+      try {
+        inputStream = context.assets.open("tweets.json")
+        builder = StringBuilder()
+        inputStream!!.bufferedReader()
+                .use { builder.append(it.readText()) }
+
+      } catch (e: IOException) {
+        Log.e("Json Function", e.message)
+      } finally {
+        try {
+          inputStream?.close()
+        } catch (e: IOException) {
+          Log.e("Json Function", e.toString())
+        }
+      }
+
+      return gson.fromJson(builder!!.toString(), object : TypeToken<List<TwitterTweet>>() {}.type)
     }
 }
