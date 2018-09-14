@@ -55,26 +55,18 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
 
     //TODO: to handle 401 error message - private account
 
-    if (screenName == "private") {
-      val privateError = TweetListResult.LoadTweetsResult.PrivateList
-      val errorBody = Gson().toJson(privateError)
-
+    if(screenName == "private"){
       return Single.create {
-        Timer().schedule(delay = 3000) {
-          it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_BAD_REQUEST,
-                  ResponseBody.create(MediaType.parse(""), errorBody))))
-        }
+        Timer().schedule(delay = 5000) {
+        it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_UNAUTHORIZED,
+                ResponseBody.create(MediaType.parse(""),""))))
       }
     }
-
-
-    //Read the tweets list from file twwets.json
-    var tweets = jsonFunctions.jsonTweetsListContents.find { it.screen_name?.toLowerCase() == screenName.toLowerCase() }
-
-    if(tweets != null){
-      return Single.just(listOf(tweets)).delay(5, SECONDS)
     }
 
+    //Read the tweets list from file tweets.json
+    val tweets = jsonFunctions.jsonTweetsListContents.filter { it.screen_name?.toLowerCase() == screenName.toLowerCase() }
+    return Single.just(tweets).delay(5, TimeUnit.SECONDS)
 
 
 
@@ -85,11 +77,11 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
 //        .delay(2, SECONDS)
 
     //Return included just to clear a build error
-    return Single.create {
-      Timer().schedule(delay = 3000) {
-        it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_BAD_REQUEST,
-                ResponseBody.create(MediaType.parse(""),""))))
-      }
-    }
+//    return Single.create {
+//      Timer().schedule(delay = 3000) {
+//        it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_BAD_REQUEST,
+//                ResponseBody.create(MediaType.parse(""),""))))
+//      }
+//    }
   }
 }

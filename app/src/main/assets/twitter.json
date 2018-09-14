@@ -23,17 +23,17 @@
         "screen_name": "mock",
         "description": "mock profile",
         "profile_link_color": "00AA55",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/180463340/1503946156",
-        "profile_image_url" : "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/2849963640/1533657430/1500x500",
+        "profile_image_url" : "https://pbs.twimg.com/profile_images/960787280431648768/lSc6wqfD_400x400.jpg"
     },
     {
         "id":4,
-        "name" : "John Mock",
+        "name" : "Heidi Klum",
         "screen_name": "private",
         "description": "mock profile",
-        "profile_link_color": "00AA55",
-        "profile_banner_url": "https://pbs.twimg.com/profile_banners/180463340/1503946156",
-        "profile_image_url" : "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"
+        "profile_link_color": "808080",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/176526699/1530802956/1500x500",
+        "profile_image_url" : "https://pbs.twimg.com/profile_images/941398588638334978/ZlFBZ2aX_400x400.jpg"
     }
 
     ]
