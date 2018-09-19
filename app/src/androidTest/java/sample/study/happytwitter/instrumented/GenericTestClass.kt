@@ -20,6 +20,7 @@ open class GenericTestClass {
 
     lateinit var context: App
     lateinit var jsonFunctions: JsonFunctions
+    lateinit var validTwitterName: String
 
     @get:Rule
     val activityRule = ActivityTestRule(SplashActivity::class.java, false,
@@ -35,6 +36,7 @@ open class GenericTestClass {
         jsonFunctions = JsonFunctions(context)
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
         Log.v("Idling Resource", "Resource registered in test class!")
+        validTwitterName = jsonFunctions.jsonContents.first().screen_name
     }
 
     @After
