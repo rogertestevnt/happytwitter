@@ -19,6 +19,8 @@ import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 import android.support.test.uiautomator.UiSelector
 import android.support.test.uiautomator.UiObject
+import org.junit.Rule
+import org.junit.rules.TestName
 import sample.study.happytwitter.R
 import sample.study.happytwitter.R.id.search_user_button
 import sample.study.happytwitter.R.id.username_edittext
@@ -26,6 +28,7 @@ import sample.study.happytwitter.R.id.username_edittext
 
 private  const val APP_PACKAGE = "sample.study.happytwitter.mock"
 private const val LAUNCH_TIMEOUT = 5000L
+private const val TAG = "UiAutomator"
 
 
     @RunWith(AndroidJUnit4::class)
@@ -35,6 +38,9 @@ private const val LAUNCH_TIMEOUT = 5000L
         private lateinit var mDevice: UiDevice
         private lateinit var context: Context
         private lateinit var intent: Intent
+
+        @get:Rule
+        var testName = TestName()
 
         @Before
         fun beforeRun() {
@@ -72,13 +78,14 @@ private const val LAUNCH_TIMEOUT = 5000L
             val network = wifiManager.connectionInfo
             if (wifiManager.isWifiEnabled){
                 val networkName = network.ssid
-                Log.v("UiAutomator", "connected to WiFi SSID:" + " " + networkName.toString())
+                Log.v(TAG, "connected to WiFi SSID:" + " " + networkName.toString())
                 try{
                     wifiManager.disconnect()
                     wifiManager.disableNetwork(network.networkId)
-                    Log.v("UiAutomator", "Wi-Fi disconnected")
+                    Log.v(TAG, "Wi-Fi disconnected")
                 }catch (e:Exception){
-                    Log.v("UiAutomator", "Wi-Fi disconnected throws error")
+                    Log.e(TAG, testName.methodName + ":" +
+                            "Wi-Fi disconnected throws error:" + e.message)
                 }
             }
 
@@ -87,9 +94,10 @@ private const val LAUNCH_TIMEOUT = 5000L
             try{
                 wifiManager.enableNetwork(network.networkId, true)
                 wifiManager.reconnect()
-                Log.v("UiAutomator", "Wi-Fi reconnected")
+                Log.v(TAG, "Wi-Fi reconnected")
             }catch (e:Exception){
-                Log.v("UiAutomator", "Wi-Fi reconnected throws error")
+                Log.e(TAG, testName.methodName + ":" +
+                        "Wi-Fi reconnected throws error:" + e.message)
             }
         }
 
@@ -99,15 +107,28 @@ private const val LAUNCH_TIMEOUT = 5000L
             mDevice.pressHome()
             mDevice.pressRecentApps()
             sleep(1000)
-
             val app = mDevice.findObject(By.text("MockHTW"))
-
             app.click()
-
             sleep(1000)
-
-            val userNameField = mDevice.findObject(By.res("sample.study.happytwitter.mock", "username_edittext"))
+            val userNameField = mDevice.findObject(By.res(
+                    "sample.study.happytwitter.mock", "username_edittext"))
             assert(userNameField.isClickable)
+        }
+
+        @Test
+        fun verifyLaunchPhonePackageFromCallButton(){
+            launchApp()
+            val appCallButton = mDevice.findObject(By.res(
+                    "sample.study.happytwitter.mock", "call_button"))
+            try{
+                appCallButton.click()
+            }catch (e:Exception){
+                Log.e(TAG, testName.methodName + ":" + e.message)
+            }
+
+            sleep(2000)
+            val phoneCallButton = mDevice.findObject(By.res("com.sonyericsson.android.socialphonebook", "call_button"))
+            assert(phoneCallButton.isClickable)
         }
 
         private fun launchApp(){
@@ -120,6 +141,7 @@ private const val LAUNCH_TIMEOUT = 5000L
             )
 
             sleep(3000)
-
         }
+
+
 }
