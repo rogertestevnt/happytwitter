@@ -2,6 +2,8 @@ package sample.study.happytwitter.presentation.usertweets.finduser
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +14,7 @@ import com.jakewharton.rxbinding2.widget.editorActionEvents
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.usertweets_finduser_view.loading_progressbar
-import kotlinx.android.synthetic.main.usertweets_finduser_view.search_error_textview
-import kotlinx.android.synthetic.main.usertweets_finduser_view.search_user_button
-import kotlinx.android.synthetic.main.usertweets_finduser_view.username_edittext
+import kotlinx.android.synthetic.main.usertweets_finduser_view.*
 import sample.study.happytwitter.R
 import sample.study.happytwitter.base.network.NetworkingViewState
 import sample.study.happytwitter.base.view.BaseFragment
@@ -26,6 +25,9 @@ import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewSt
 import sample.study.happytwitter.utils.hideSoftKeyboard
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
+
+
+const val PHONE_NUMBER:String = "tel:019987651234"
 
 class FindUserFragment : BaseFragment(), IView<FindUserAction, FindUserViewState> {
 
@@ -58,6 +60,12 @@ class FindUserFragment : BaseFragment(), IView<FindUserAction, FindUserViewState
 
     // Pass the UI's intents to the ViewModel
     viewModel.actions(actions())
+
+    call_button.setOnClickListener{
+      var intent = Intent(Intent.ACTION_DIAL)
+      intent.data = Uri.parse(PHONE_NUMBER)
+      startActivity(intent)
+    }
   }
 
   override fun onDestroy() {
