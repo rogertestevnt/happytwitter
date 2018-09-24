@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,9 +86,9 @@ class TweetListFragment : BaseFragment(), IView<TweetListAction, TweetListViewSt
     viewModel.actions(actions())
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
+  override fun onDestroyView() {
     disposables.clear()
+    super.onDestroyView()
   }
 
   override fun actions(): Observable<TweetListAction> {
