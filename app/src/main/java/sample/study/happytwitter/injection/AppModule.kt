@@ -2,6 +2,7 @@ package sample.study.happytwitter.injection
 
 import android.app.Application
 import android.content.Context
+import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
 import sample.study.happytwitter.data.google.GoogleRepository

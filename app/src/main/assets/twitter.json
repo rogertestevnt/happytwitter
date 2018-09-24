@@ -1,0 +1,30 @@
+[
+    {
+        "id":1,
+        "name" : "Barak Obama",
+        "screen_name": "BarackObama",
+        "description": "Former USA president",
+        "profile_link_color": "FF0020",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/813286/1502508746/1500x500",
+        "profile_image_url" : "https://pbs.twimg.com/profile_images/822547732376207360/5g0FC8XX_400x400.jpg"
+    },
+    {
+        "id":2,
+        "name" : "Rania Al Abdullah",
+        "screen_name": "QueenRania",
+        "description": "Queen of Jordain",
+        "profile_link_color": "00FF20",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/36412963/1463386876/1500x500",
+        "profile_image_url" : "https://pbs.twimg.com/profile_images/898119815507963904/atPmdd6l_400x400.jpg"
+    },
+    {
+        "id":3,
+        "name" : "John Mock",
+        "screen_name": "mock",
+        "description": "mock profile",
+        "profile_link_color": "00AA55",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/180463340/1503946156",
+        "profile_image_url" : "https://pbs.twimg.com/profile_images/901947348699545601/hqRMHITj_400x400.jpg"
+    }
+
+    ]
