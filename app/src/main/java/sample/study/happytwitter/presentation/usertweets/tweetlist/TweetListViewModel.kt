@@ -57,6 +57,7 @@ class TweetListViewModel @Inject constructor(
 
   private val analyseTweetSentimentProcessor = ObservableTransformer<AnalyzeTweetAction, AnalyzeTweetResult> { actions ->
     actions.flatMap { action ->
+      EspressoIdlingResource.increment()
       googleRepository.analyzeSentiment(action.listItem.tweet)
           .toObservable()
           .map { AnalyzeTweetResult.Success(action.listItem, it.sentiment) }
@@ -65,6 +66,7 @@ class TweetListViewModel @Inject constructor(
           .subscribeOn(schedulerProvider.io())
           .observeOn(schedulerProvider.ui())
           .startWith(AnalyzeTweetResult.Loading(action.listItem))
+              .doFinally{ EspressoIdlingResource.decrement() }
     }
   }
 

@@ -64,17 +64,23 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
     }
     }
 
-    //Read the tweets list from file tweets.json
-    val tweets = jsonFunctions.jsonTweetsListContents.filter { it.screen_name?.toLowerCase() == screenName.toLowerCase() }
-    return Single.just(tweets).delay(5, TimeUnit.SECONDS)
+//    //Read the tweets list from file tweets.json
+//    val tweets = jsonFunctions.jsonTweetsListContents.filter { it.screen_name?.toLowerCase() == screenName.toLowerCase() }
+//    return Single.just(tweets).delay(5, TimeUnit.SECONDS)
 
 
 
-//    val happyTweet = TwitterTweet(1, "00/09/2002", "Happy message", screenName)
-//    val sadTweet = TwitterTweet(2, "00/09/2002", "SAD message", screenName)
-//    val neutralTweet = TwitterTweet(3, "00/09/2002", "neutral message", screenName)
-//    return Single.just(listOf(happyTweet, sadTweet, neutralTweet))
-//        .delay(2, SECONDS)
+    val happyTweet = TwitterTweet(1, "00/09/2002", "Happy message", screenName)
+    val happyTweet1 = TwitterTweet(2, "00/09/2002", "Happy message one", screenName)
+    val happyTweet2 = TwitterTweet(3, "00/09/2002", "Happy message two", screenName)
+    val sadTweet = TwitterTweet(4, "00/09/2002", "SAD message", screenName)
+    val sadTweet1 = TwitterTweet(5, "00/09/2002", "SAD message one", screenName)
+    val sadTweet2 = TwitterTweet(6, "00/09/2002", "SAD message two", screenName)
+    val neutralTweet = TwitterTweet(7, "00/09/2002", "neutral message", screenName)
+    val neutralTweet1 = TwitterTweet(8, "00/09/2002", "neutral message one", screenName)
+    val neutralTweet2 = TwitterTweet(9, "00/09/2002", "neutral message two", screenName)
+    return Single.just(listOf(happyTweet, happyTweet1, happyTweet2, sadTweet, sadTweet1, sadTweet2, neutralTweet, neutralTweet1, neutralTweet2))
+        .delay(2, SECONDS)
 
     //Return included just to clear a build error
 //    return Single.create {
