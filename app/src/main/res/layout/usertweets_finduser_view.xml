@@ -32,6 +32,17 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/username_edittext"
       />
+  <Button
+      android:id="@+id/call_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/usertweets_finduser_call_button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/search_user_button"
+      />
   <ImageView
       android:id="@+id/imageView"
       android:layout_width="0dp"

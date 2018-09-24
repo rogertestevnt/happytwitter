@@ -4,6 +4,7 @@
   <!-- Usertweets -->
   <string name="usertweets_finduser_username_hint">AndrehST</string>
   <string name="usertweets_finduser_search_button">Search</string>
+  <string name="usertweets_finduser_call_button">Call us</string>
   <string name="usertweets_finduser_error_user_not_found">User not found.</string>
   <string name="usertweets_finduser_error_user_disabled">User disabled.</string>
 
