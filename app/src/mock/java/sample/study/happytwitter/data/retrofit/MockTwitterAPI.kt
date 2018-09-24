@@ -11,11 +11,13 @@ import sample.study.happytwitter.data.twitter.TwitterTweet
 import sample.study.happytwitter.data.twitter.TwitterUser
 import sample.study.happytwitter.data.twitter.remote.TwitterAPI
 import sample.study.happytwitter.data.twitter.remote.TwitterError
+import sample.study.happytwitter.presentation.usertweets.tweetlist.TweetListResult
 import java.net.HttpURLConnection
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
 
 class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunctions) : TwitterAPI {
@@ -50,10 +52,36 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
   }
 
   override fun getTweetsByUser(screenName: String): Single<List<TwitterTweet>> {
-    val happyTweet = TwitterTweet(1, "00/09/2002", "Happy message", screenName)
-    val sadTweet = TwitterTweet(2, "00/09/2002", "SAD message", screenName)
-    val neutralTweet = TwitterTweet(3, "00/09/2002", "neutral message", screenName)
-    return Single.just(listOf(happyTweet, sadTweet, neutralTweet))
-        .delay(2, SECONDS)
+
+    //TODO: to handle 401 error message - private account
+
+    if(screenName == "private"){
+      return Single.create {
+        Timer().schedule(delay = 5000) {
+        it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_UNAUTHORIZED,
+                ResponseBody.create(MediaType.parse(""),""))))
+      }
+    }
+    }
+
+    //Read the tweets list from file tweets.json
+    val tweets = jsonFunctions.jsonTweetsListContents.filter { it.screen_name?.toLowerCase() == screenName.toLowerCase() }
+    return Single.just(tweets).delay(5, TimeUnit.SECONDS)
+
+
+
+//    val happyTweet = TwitterTweet(1, "00/09/2002", "Happy message", screenName)
+//    val sadTweet = TwitterTweet(2, "00/09/2002", "SAD message", screenName)
+//    val neutralTweet = TwitterTweet(3, "00/09/2002", "neutral message", screenName)
+//    return Single.just(listOf(happyTweet, sadTweet, neutralTweet))
+//        .delay(2, SECONDS)
+
+    //Return included just to clear a build error
+//    return Single.create {
+//      Timer().schedule(delay = 3000) {
+//        it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_BAD_REQUEST,
+//                ResponseBody.create(MediaType.parse(""),""))))
+//      }
+//    }
   }
 }

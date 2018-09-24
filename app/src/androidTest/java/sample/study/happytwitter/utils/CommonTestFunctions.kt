@@ -52,6 +52,16 @@ class CommonTestFunctions internal constructor() {
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         }
 
+        fun assertElementIsDisplayedOnView(elementId: Int) {
+            Espresso.onView(AllOf.allOf(ViewMatchers.withId(elementId), ViewMatchers.isCompletelyDisplayed()))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+
+        fun assertElementIsDisplayedOnView(text: String) {
+            Espresso.onView(AllOf.allOf(ViewMatchers.withText(text), ViewMatchers.isCompletelyDisplayed()))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+
         fun assertElementIsNotDisplayed(text: String) {
             onView(ViewMatchers.withText(text))
                     .check(ViewAssertions.matches(not(ViewMatchers.isDisplayed())))

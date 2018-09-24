@@ -1,5 +1,6 @@
 package sample.study.happytwitter.presentation.usertweets.tweetlist
 
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
@@ -15,6 +16,7 @@ import sample.study.happytwitter.presentation.usertweets.tweetlist.TweetListResu
 import sample.study.happytwitter.presentation.usertweets.tweetlist.TweetListViewState.Companion.ERROR_PRIVATE_USER
 import sample.study.happytwitter.presentation.usertweets.tweetlist.tweetitem.AnalyzeTweetRequestState
 import sample.study.happytwitter.presentation.usertweets.tweetlist.tweetitem.TweetItemState
+import sample.study.happytwitter.utils.EspressoIdlingResource
 import sample.study.happytwitter.utils.schedulers.ISchedulerProvider
 import javax.inject.Inject
 
@@ -32,6 +34,7 @@ class TweetListViewModel @Inject constructor(
 
   private val loadTweetsProcessor = ObservableTransformer<LoadTweetsAction, LoadTweetsResult> { actions ->
     actions.flatMap { action ->
+      EspressoIdlingResource.increment()
       twitterRepository.getTweetsByUser(action.screenName)
           .map(LoadTweetsResult::Success)
           .cast(LoadTweetsResult::class.java)
@@ -45,6 +48,7 @@ class TweetListViewModel @Inject constructor(
               LoadTweetsResult.UnknownError(error)
             }
           }
+              .doFinally{ EspressoIdlingResource.decrement() }
           .subscribeOn(schedulerProvider.io())
           .observeOn(schedulerProvider.ui())
           .startWith(LoadTweetsResult.Loading)
