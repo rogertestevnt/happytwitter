@@ -22,15 +22,8 @@ import sample.study.happytwitter.utils.EspressoIdlingResource
 @RunWith(AndroidJUnit4::class)
 class TwitterSearchInstrumented : GenericTestClass() {
 
-    private lateinit var validTwitterName: String
     private var invalidTwitterName: String = "abc"
     private val disabledTwitterName: String = "disabled"
-
-    @Before
-    override fun beforeRun() {
-        super.beforeRun()
-        validTwitterName = jsonFunctions.jsonContents.first().screen_name
-    }
 
     @Test
     fun verifyTwitterSearchView() {
