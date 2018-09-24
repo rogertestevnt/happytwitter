@@ -14,6 +14,8 @@ import android.widget.TextView
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
 import org.hamcrest.Matcher
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @Suppress
@@ -200,6 +202,11 @@ class CommonTestFunctions internal constructor() {
                 }
             })
             return stringHolder
+        }
+
+        fun getFileName(testName: String): String {
+            val date = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+            return testName + "_" + date
         }
 
     }
