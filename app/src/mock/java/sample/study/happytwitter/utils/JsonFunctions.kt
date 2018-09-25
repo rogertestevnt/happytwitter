@@ -17,49 +17,38 @@ class JsonFunctions @Inject constructor(private val context: Context){
   val jsonContents: List<TwitterUser>
     get() {
 
-      var inputStream: InputStream? = null
-      var builder: StringBuilder? = null
-
-      try {
-        inputStream = context.assets.open("twitter.json")
-        builder = StringBuilder()
-        inputStream!!.bufferedReader()
-          .use { builder.append(it.readText()) }
-
-      } catch (e: IOException) {
-        Log.e("Json Function", e.message)
-      } finally {
-        try {
-          inputStream?.close()
-        } catch (e: IOException) {
-          Log.e("Json Function", e.toString())
-        }
-      }
+      val builder = readFile("twitter.json")
 
       return gson.fromJson(builder!!.toString(), object : TypeToken<List<TwitterUser>>() {}.type)
     }
 
   val jsonTweetsListContents: List<TwitterTweet>
     get() {
-      var inputStream: InputStream? = null
-      var builder: StringBuilder? = null
 
-      try {
-        inputStream = context.assets.open("tweets.json")
-        builder = StringBuilder()
-        inputStream!!.bufferedReader()
-                .use { builder.append(it.readText()) }
-
-      } catch (e: IOException) {
-        Log.e("Json Function", e.message)
-      } finally {
-        try {
-          inputStream?.close()
-        } catch (e: IOException) {
-          Log.e("Json Function", e.toString())
-        }
-      }
+      val builder = readFile("tweets.json")
 
       return gson.fromJson(builder!!.toString(), object : TypeToken<List<TwitterTweet>>() {}.type)
     }
+
+  private fun readFile(fileName:String):StringBuilder?{
+    var inputStream: InputStream? = null
+    var builder: StringBuilder? = null
+
+    try {
+      inputStream = context.assets.open(fileName)
+      builder = StringBuilder()
+      inputStream!!.bufferedReader()
+              .use { builder.append(it.readText()) }
+
+    } catch (e: IOException) {
+      Log.e("Json Function", e.message)
+    } finally {
+      try {
+        inputStream?.close()
+      } catch (e: IOException) {
+        Log.e("Json Function", e.toString())
+      }
+    }
+    return builder
+  }
 }
