@@ -1,32 +1,86 @@
 [
     {
         "id":1,
-        "create_at" : "01/09/2002",
+        "created_at" : "01/09/2002",
         "text": "Today I’m at the University of Illinois to deliver a simple message to young people all over the country: You need to vote, because our democracy depends on it. I hope you'll tune in at 11am CT: http://go.illinois.edu/live ",
         "screen_name": "BarackObama"
     },
     {
         "id":2,
-        "create_at" : "01/09/2012",
-        "text": "Yesterday I met with high school students on Chicago’s Southwest side who spent the summer learning to code some pretty cool apps. Michelle and I are proud to support programs that invest in local youth and we’re proud of these young people.",
+        "created_at" : "01/09/2012",
+        "text": "BORED Yesterday I met with high school students on Chicago’s Southwest side who spent the summer learning to code some pretty cool apps. Michelle and I are proud to support programs that invest in local youth and we’re proud of these young people.",
         "screen_name": "BarackObama"
     },
     {
         "id":3,
-        "create_at" : "01/09/2018",
-        "text": "From my visit yesterday to the King Abdullah II Ibn Al Hussein Orphanage in Al",
+        "created_at" : "01/09/2018",
+        "text": "HAPPY From my visit yesterday to the King Abdullah II Ibn Al Hussein Orphanage in Al",
         "screen_name": "QueenRania"
     },
     {
         "id":4,
-        "create_at" : "02/09/2018",
-        "text": "Just watched Spike Lee’s #BlacKkKlansman. Tackles one of the most critical issues of our time, confronting the ugliest and most shameful of human impulses in an engaging and - at times - even humorous manner. Provocative and pure genius; go watch it!",
+        "created_at" : "02/09/2018",
+        "text": "HAPPY Just watched Spike Lee’s #BlacKkKlansman. Tackles one of the most critical issues of our time, confronting the ugliest and most shameful of human impulses in an engaging and - at times - even humorous manner. Provocative and pure genius; go watch it!",
         "screen_name": "QueenRania"
     },
     {
         "id":5,
-        "create_at" : "03/09/2018",
-        "text": "All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
+        "created_at" : "03/09/2018",
+        "text": "SAD All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
         "screen_name": "QueenRania"
+    },
+    {
+        "id":6,
+        "created_at" : "04/09/2018",
+        "text": "DEPRESSED All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
+        "screen_name": "QueenRania"
+    },
+    {
+        "id":7,
+        "created_at" : "05/09/2018",
+        "text": "BORED All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
+        "screen_name": "QueenRania"
+    },
+    {
+        "id":8,
+        "created_at" : "06/09/2018",
+        "text": "HAPPY All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
+        "screen_name": "QueenRania"
+    },
+    {
+        "id":9,
+        "created_at" : "07/09/2018",
+        "text": "DEPRESSED All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
+        "screen_name": "QueenRania"
+    },
+    {
+        "id":10,
+        "created_at" : "07/09/2018",
+        "text": "SAD All grown up but you will never outgrow my heart… Incredibly proud of you, today, and every day ",
+        "screen_name": "QueenRania"
+    },
+    {
+        "id":11,
+        "created_at" : "02/09/2018",
+        "text": "DEPRESSED From my visit yesterday to the King Abdullah II Ibn Al Hussein Orphanage in Al",
+        "screen_name": "BarackObama"
+    },
+    {
+        "id":12,
+        "created_at" : "02/09/2018",
+        "text": "JOYFUL From my visit yesterday to the King Abdullah II Ibn Al Hussein Orphanage in Al",
+        "screen_name": "BarackObama"
+    },
+    {
+        "id":13,
+        "created_at" : "02/09/2018",
+        "text": "SATISFIED From my visit yesterday to the King Abdullah II Ibn Al Hussein Orphanage in Al",
+        "screen_name": "BarackObama"
+    },
+    {
+        "id":13,
+        "created_at" : "02/09/2018",
+        "text": "DEPRESSED From my visit yesterday to the King Abdullah II Ibn Al Hussein Orphanage in Al",
+        "screen_name": "BarackObama"
     }
     ]
