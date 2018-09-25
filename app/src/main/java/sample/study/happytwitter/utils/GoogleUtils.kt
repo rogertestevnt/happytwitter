@@ -6,16 +6,15 @@ import sample.study.happytwitter.presentation.usertweets.tweetlist.tweetitem.Twe
 import sample.study.happytwitter.presentation.usertweets.tweetlist.tweetitem.TweetSentiment.NEUTRAL
 import sample.study.happytwitter.presentation.usertweets.tweetlist.tweetitem.TweetSentiment.SAD
 
-class GoogleUtils {
-  companion object {
-    fun mapSentiment(googleResponse: GoogleAnalyzeResponse): TweetSentiment {
-      return googleResponse.documentSentiment?.let {
-        when {
-          it.score <= -0.25 -> SAD
-          it.score >= 0.25 -> HAPPY
-          else -> NEUTRAL
-        }
-      } ?: NEUTRAL
-    }
+object GoogleUtils {
+
+  fun mapSentiment(googleResponse: GoogleAnalyzeResponse): TweetSentiment {
+    return googleResponse.documentSentiment?.let {
+      when {
+        it.score <= -0.25 -> SAD
+        it.score >= 0.25 -> HAPPY
+        else -> NEUTRAL
+      }
+    } ?: NEUTRAL
   }
 }
