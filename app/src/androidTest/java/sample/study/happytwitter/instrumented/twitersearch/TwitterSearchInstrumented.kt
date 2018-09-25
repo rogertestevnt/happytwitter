@@ -1,21 +1,15 @@
 package sample.study.happytwitter.instrumented.twitersearch
 
-import android.support.test.espresso.Espresso
-import android.support.test.espresso.IdlingRegistry
-import android.support.test.espresso.IdlingResource
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import android.util.Log
-import org.junit.After
-import org.junit.Before
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import sample.study.happytwitter.R
 import sample.study.happytwitter.instrumented.GenericTestClass
+import sample.study.happytwitter.instrumented.TAG
 import sample.study.happytwitter.utils.CommonTestFunctions
-import sample.study.happytwitter.utils.EspressoIdlingResource
 
 
 @LargeTest
@@ -62,9 +56,14 @@ class TwitterSearchInstrumented : GenericTestClass() {
     }
 
     private fun typeUser(twitterUser:String){
-        CommonTestFunctions.typeText(R.id.username_edittext, twitterUser)
-        Log.v("Idling Resource", testName.methodName + "screen name typed!")
-
+        try{
+            CommonTestFunctions.typeText(R.id.username_edittext, twitterUser)
+        }catch(e:Exception){
+            Log.e(TAG, e.toString())
+            fileName = CommonTestFunctions.getFileName(testName.methodName)
+            screenshotHelper.saveBitmap(screenshotHelper.takeScreenshot(), context, fileName)
+            Assert.fail()
+        }
     }
 
 
