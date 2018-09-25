@@ -11,12 +11,14 @@ import javax.inject.Inject
 class MockGoogleAPI @Inject constructor() : GoogleAPI {
   override fun analyzeSentiment(body: GoogleAnalyzeBody): Single<GoogleAnalyzeResponse> {
     val text = body.document.content
-    val response = if (text.contains("HAPPY", true)) {
-      GoogleAnalyzeResponse(DocumentSentiment(0.8))
-    } else if (text.contains("SAD", true)) {
-      GoogleAnalyzeResponse(DocumentSentiment(-0.4))
-    } else {
-      GoogleAnalyzeResponse(DocumentSentiment(0.0))
+    val response = when {
+        text.contains("HAPPY", true) -> GoogleAnalyzeResponse(DocumentSentiment(0.8))
+        text.contains("JOYFUL", true) -> GoogleAnalyzeResponse(DocumentSentiment(0.8))
+        text.contains("SATISFIED", true) -> GoogleAnalyzeResponse(DocumentSentiment(0.8))
+        text.contains("SAD", true) -> GoogleAnalyzeResponse(DocumentSentiment(-0.4))
+        text.contains("BORED", true) -> GoogleAnalyzeResponse(DocumentSentiment(-0.4))
+        text.contains("DEPRESSED", true) -> GoogleAnalyzeResponse(DocumentSentiment(-0.4))
+        else -> GoogleAnalyzeResponse(DocumentSentiment(0.0))
     }
     return Single.just(response)
         .delay(4, SECONDS)
