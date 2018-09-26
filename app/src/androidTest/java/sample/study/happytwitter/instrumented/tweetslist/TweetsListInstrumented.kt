@@ -1,4 +1,4 @@
-package sample.study.happytwitter.instrumented.results
+package sample.study.happytwitter.instrumented.tweetslist
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
@@ -16,16 +16,18 @@ import sample.study.happytwitter.utils.CommonTestFunctions
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class TweetsResultInstrumented:GenericTestClass() {
+class TweetsListInstrumented:GenericTestClass() {
 
-    private val POSITION = 8
+    companion object {
+        private const val POSITION = 6
+    }
 
     @Test
     fun verifyScrollToItemByPositionAndVerifyText() {
-        CommonTestFunctions.typeText(R.id.username_edittext,validTwitterName)
+        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
         // First scroll to the position that needs to be matched and click on it.
         onView(ViewMatchers.withId(R.id.tweets_recyclerview))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
-        CommonTestFunctions.assertElementIsDisplayed("neutral message two")
+        CommonTestFunctions.assertElementIsDisplayed("JOYFUL to meet you at Venturus!")
     }
 }
