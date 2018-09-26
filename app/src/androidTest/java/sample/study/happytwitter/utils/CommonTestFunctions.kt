@@ -1,5 +1,8 @@
 package sample.study.happytwitter.utils
 
+import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.support.annotation.DrawableRes
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.*
 import android.support.test.espresso.NoMatchingViewException
@@ -9,11 +12,15 @@ import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import org.hamcrest.Description
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
 import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -207,6 +214,30 @@ class CommonTestFunctions internal constructor() {
         fun getFileName(testName: String): String {
             val date = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
             return testName + "_" + date
+        }
+
+        fun drawableIsCorrect(@DrawableRes drawableResId: Int): Matcher<View> {
+            return object : TypeSafeMatcher<View>() {
+                override fun describeTo(description: Description) {
+                    description.appendText("with drawable from resource id: ")
+                    description.appendValue(drawableResId)
+                }
+
+                override fun matchesSafely(target: View?): Boolean {
+                    if (target !is ImageView) {
+                        return false
+                    }
+                    if (drawableResId < 0) {
+                        return target.drawable == null
+                    }
+                    val expectedDrawable = ContextCompat.getDrawable(target.context, drawableResId)
+                            ?: return false
+
+                    val bitmap = (target.drawable as BitmapDrawable).bitmap
+                    val otherBitmap = (expectedDrawable as BitmapDrawable).bitmap
+                    return bitmap.sameAs(otherBitmap)
+                }
+            }
         }
 
     }
