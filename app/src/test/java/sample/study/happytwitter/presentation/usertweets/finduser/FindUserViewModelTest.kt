@@ -2,24 +2,16 @@ package sample.study.happytwitter.presentation.usertweets.finduser
 
 import com.nhaarman.mockito_kotlin.any
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import okhttp3.MediaType
-import okhttp3.ResponseBody
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.HttpException
-import retrofit2.Response
 import sample.study.happytwitter.base.network.NetworkingViewState
-import sample.study.happytwitter.base.network.NetworkingViewState.Error
 import sample.study.happytwitter.data.twitter.ITwitterRepo
 import sample.study.happytwitter.data.twitter.TwitterUser
-import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_USER_DISABLED
-import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_USER_NOT_FOUND
 import sample.study.happytwitter.utils.schedulers.ISchedulerProvider
 import sample.study.happytwitter.utils.schedulers.MockSchedulerProvider
 
@@ -65,48 +57,29 @@ class FindUserViewModelTest {
     testObserver.assertValueAt(lastPosition) { viewState -> viewState.searchUserNetworking != NetworkingViewState.Loading }
   }
 
-  @Test
-  fun `SearchUserAction - Success`() {
-    `when`(twitterRepository.getUser(any())).thenReturn(Observable.just(validUser))
+  /**
+   * 1 - Verificar Ação SearchUserAction com um retorno valido
+   */
 
-    viewModel.actions(Observable.just(FindUserAction.SearchUserAction("username")))
+  /**
+   * 2 - Verificar Ação SearchUserAction com usuário não encontrado
+   *
+   * val response = Response.error<Void>(404, ResponseBody.create(MediaType.parse(""), "{\"errors\": [{\"code\":50, \"message\": \"User not found.\"}]}"))
+   * `when`(twitterRepository.getUser(any())).thenReturn(Observable.error(HttpException(response)))
+   */
 
-    testObserver.assertValueAt(lastPosition, FindUserViewState(validUser, false, NetworkingViewState.Success))
-  }
+  /**
+   * 3 - Verificar Ação SearchUserAction usuário desabilitado
+   *
+   * val response = Response.error<Void>(402, ResponseBody.create(MediaType.parse(""), "{\"errors\": [{\"code\":63, \"message\": \"User not found.\"}]}"))
+   * `when`(twitterRepository.getUser(any())).thenReturn(Observable.error(HttpException(response)))
+   */
 
-  @Test
-  fun `SearchUserAction - UserNotFound`() {
-    val response =
-        Response.error<Void>(404, ResponseBody.create(MediaType.parse(""), "{\"errors\": [{\"code\":50, \"message\": \"User not found.\"}]}"))
-    `when`(twitterRepository.getUser(any())).thenReturn(Observable.error(HttpException(response)))
+  /**
+   * 4 - Verificar ChangeUserAction campo não vazio
+   */
 
-    viewModel.actions(Observable.just(FindUserAction.SearchUserAction("username")))
-
-    testObserver.assertValueAt(lastPosition) { state -> (state.searchUserNetworking as Error).errorMessage == ERROR_USER_NOT_FOUND }
-  }
-
-  @Test
-  fun `SearchUserAction - UserDisabled`() {
-    val response =
-        Response.error<Void>(402, ResponseBody.create(MediaType.parse(""), "{\"errors\": [{\"code\":63, \"message\": \"User not found.\"}]}"))
-    `when`(twitterRepository.getUser(any())).thenReturn(Observable.error(HttpException(response)))
-
-    viewModel.actions(Observable.just(FindUserAction.SearchUserAction("username")))
-
-    testObserver.assertValueAt(lastPosition) { state -> (state.searchUserNetworking as Error).errorMessage == ERROR_USER_DISABLED }
-  }
-
-  @Test
-  fun `ChangeUserAction - not empty`() {
-    viewModel.actions(Observable.just(FindUserAction.ChangeUserAction("a")))
-
-    testObserver.assertValueAt(lastPosition, FindUserViewState(isUserNameValid = true))
-  }
-
-  @Test
-  fun `ChangeUserAction - empty`() {
-    viewModel.actions(Observable.just(FindUserAction.ChangeUserAction("")))
-
-    testObserver.assertValueAt(lastPosition, FindUserViewState(isUserNameValid = false))
-  }
+  /**
+   * 5 - Verificar ChangeuserAction campo vazio
+   */
 }
