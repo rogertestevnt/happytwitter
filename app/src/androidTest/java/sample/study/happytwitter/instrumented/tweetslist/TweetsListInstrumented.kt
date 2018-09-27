@@ -40,13 +40,12 @@ class TweetsListInstrumented:GenericTestClass() {
     }
 
     @Test
-    fun testVerifyImageIsDisplayed(){
+    fun testVerifyImageViewIsDisplayed(){
         CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
         onView(ViewMatchers.withId(R.id.tweets_recyclerview))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
         onView(AllOf.allOf(withId(R.id.tweet_sentiment_imageview),
-                isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview)
-                .atPosition(POSITION))))
+                isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview).atPosition(POSITION))))
                 .check(ViewAssertions.matches(isDisplayed()))
     }
 
@@ -55,8 +54,19 @@ class TweetsListInstrumented:GenericTestClass() {
         CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
         onView(ViewMatchers.withId(R.id.tweets_recyclerview))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
+        onView(AllOf.allOf(withId(R.id.tweet_sentiment_imageview),
+                isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview).atPosition(POSITION))))
+                .check(ViewAssertions.matches(EspressoTestsMatchers.withDrawable(R.drawable.tweetlist_item_happy_bg)))
+    }
+
+    @Test
+    fun testVerifyHappyDrawable(){
+        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        onView(ViewMatchers.withId(R.id.tweets_recyclerview))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
         onView(AllOf.allOf(CommonTestFunctions.drawableIsCorrect(R.drawable.tweetlist_item_happy_bg),
                 isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview).atPosition(POSITION))))
                 .check(ViewAssertions.matches(isDisplayed()))
     }
+
 }
