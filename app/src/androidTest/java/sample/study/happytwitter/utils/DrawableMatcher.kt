@@ -24,7 +24,7 @@ class DrawableMatcher internal constructor(private val expectedId: Int) : TypeSa
             return target.drawable != null
         }
         val resources = target.getContext().resources
-        val expectedDrawable = resources.getDrawable(expectedId)
+        val expectedDrawable = resources.getDrawable(expectedId, null)
         resourceName = resources.getResourceEntryName(expectedId)
 
         if (expectedDrawable == null) {
@@ -59,7 +59,7 @@ class DrawableMatcher internal constructor(private val expectedId: Int) : TypeSa
         internal val ANY = -2
     }
 }
-object EspressoTestsMatchers {
+object DrawableMatchers {
 
     fun withDrawable(resourceId: Int): Matcher<View> {
         return DrawableMatcher(resourceId)
