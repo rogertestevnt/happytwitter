@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 import sample.study.happytwitter.R
 import sample.study.happytwitter.instrumented.GenericTestClass
 import sample.study.happytwitter.utils.CommonTestFunctions
+import sample.study.happytwitter.utils.DrawableMatchers
 import sample.study.happytwitter.utils.RecyclerViewMatcher
 
 
@@ -44,4 +45,37 @@ class TweetsListInstrumented:GenericTestClass() {
                 isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview).atPosition(POSITION))))
                 .check(ViewAssertions.matches(isDisplayed()))
     }
+
+    @Test
+    fun testVerifyHappyIconIsDisplayed(){
+        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        scrollListToPositionAndPerformClick(POSITION)
+        assertSentimentIconIsDisplayed(R.drawable.sentiment_happy_icon, POSITION)
+    }
+
+    @Test
+    fun testVerifySadIconIsDisplayed(){
+        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        scrollListToPositionAndPerformClick(POSITION - 4)
+        assertSentimentIconIsDisplayed(R.drawable.sentiment_sad_icon, POSITION - 4)
+    }
+
+    @Test
+    fun testVerifyNeutralIconIsDisplayed(){
+        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        scrollListToPositionAndPerformClick(0)
+        assertSentimentIconIsDisplayed(R.drawable.sentiment_neutral_icon, 0)
+    }
+
+    private fun scrollListToPositionAndPerformClick(position: Int){
+        onView(ViewMatchers.withId(R.id.tweets_recyclerview))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(position, click()))
+    }
+
+    private fun assertSentimentIconIsDisplayed(drawable:Int, position:Int){
+        onView(AllOf.allOf(withId(R.id.tweet_sentiment_imageview),
+                isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview).atPosition(position))))
+                .check(ViewAssertions.matches(DrawableMatchers.withDrawable(drawable)))
+    }
 }
+

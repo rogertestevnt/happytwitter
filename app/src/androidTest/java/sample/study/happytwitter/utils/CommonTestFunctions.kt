@@ -1,7 +1,7 @@
 package sample.study.happytwitter.utils
 
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.*
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.NoMatchingViewException
 import android.support.test.espresso.UiController
 import android.support.test.espresso.ViewAction
@@ -11,11 +11,12 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import android.view.View
 import android.widget.TextView
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
-import org.hamcrest.Matcher
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * @Suppress
@@ -208,6 +209,5 @@ class CommonTestFunctions internal constructor() {
             val date = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
             return testName + "_" + date
         }
-
     }
 }
