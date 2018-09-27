@@ -78,3 +78,4 @@ class TweetsListInstrumented:GenericTestClass() {
                 .check(ViewAssertions.matches(DrawableMatchers.withDrawable(drawable)))
     }
 }
+
