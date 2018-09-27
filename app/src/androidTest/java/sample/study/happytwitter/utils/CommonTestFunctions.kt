@@ -1,9 +1,7 @@
 package sample.study.happytwitter.utils
 
-import android.graphics.drawable.BitmapDrawable
-import android.support.annotation.DrawableRes
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.*
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.NoMatchingViewException
 import android.support.test.espresso.UiController
 import android.support.test.espresso.ViewAction
@@ -11,20 +9,13 @@ import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import android.support.v4.content.ContextCompat
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
-import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
 import java.text.SimpleDateFormat
 import java.util.*
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-
 
 
 /**
