@@ -4,6 +4,7 @@ import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import android.util.Log
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import sample.study.happytwitter.R
@@ -18,6 +19,9 @@ class TwitterSearchInstrumented : GenericTestClass() {
 
     private var invalidTwitterName: String = "abc"
     private val disabledTwitterName: String = "disabled"
+    private val overCapacityName: String = "full"
+    private val notAuthorizedName: String = "curious"
+    private val accountLockedName: String = "gate"
 
     @Test
     fun verifyTwitterSearchView() {
@@ -39,12 +43,31 @@ class TwitterSearchInstrumented : GenericTestClass() {
     }
 
     @Test
+    fun verifyNotAuthorizedMsg() {
+        typeUser(notAuthorizedName)
+        CommonTestFunctions.assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_not_authorized))
+    }
+
+    @Test
+    fun verifyOveCapacityMsg() {
+        typeUser(overCapacityName)
+        CommonTestFunctions.assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_over_capacity))
+    }
+
+    @Test
+    fun verifyAccountLockedMsg() {
+        typeUser(accountLockedName)
+        CommonTestFunctions.assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_user_locked))
+    }
+
+    @Test
     fun verifyValidTwitterUser() {
         typeUser(validTwitterName)
         CommonTestFunctions.assertElementIsDisplayed(R.id.profile_picture_imageview)
         CommonTestFunctions.pressBack()
     }
 
+    @Ignore
     @Test
     fun verifyResponseForAllValidPublicUsers() {
         val users = jsonFunctions.jsonContents

@@ -91,7 +91,7 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
 
     if(screenName == "private"){
       return Single.create {
-        Timer().schedule(delay = 3000) {
+        Timer().schedule(delay = 1000) {
         it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_UNAUTHORIZED,
                 ResponseBody.create(MediaType.parse(""),""))))}
         }
