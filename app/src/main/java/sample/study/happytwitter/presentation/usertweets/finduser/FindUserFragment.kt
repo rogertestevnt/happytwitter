@@ -20,7 +20,10 @@ import sample.study.happytwitter.base.network.NetworkingViewState
 import sample.study.happytwitter.base.view.BaseFragment
 import sample.study.happytwitter.base.view.IView
 import sample.study.happytwitter.presentation.usertweets.UserTweetsActivity
+import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_NOT_AUTHORIZED
+import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_OVER_CAPACITY
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_USER_DISABLED
+import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_USER_LOCKED
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserViewState.Companion.ERROR_USER_NOT_FOUND
 import sample.study.happytwitter.utils.hideSoftKeyboard
 import javax.inject.Inject
@@ -107,6 +110,9 @@ class FindUserFragment : BaseFragment(), IView<FindUserAction, FindUserViewState
         searchErrorMessage = when (state.searchUserNetworking.errorMessage) {
           ERROR_USER_NOT_FOUND -> getString(R.string.usertweets_finduser_error_user_not_found)
           ERROR_USER_DISABLED -> getString(R.string.usertweets_finduser_error_user_disabled)
+          ERROR_OVER_CAPACITY -> getString(R.string.usertweets_finduser_error_over_capacity)
+          ERROR_NOT_AUTHORIZED -> getString(R.string.usertweets_finduser_error_not_authorized)
+          ERROR_USER_LOCKED -> getString(R.string.usertweets_finduser_error_user_locked)
           else -> state.searchUserNetworking.errorMessage
         }
       }

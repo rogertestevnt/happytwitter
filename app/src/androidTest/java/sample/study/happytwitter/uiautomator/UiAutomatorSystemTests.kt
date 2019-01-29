@@ -25,7 +25,7 @@ import java.lang.Thread.sleep
 
 
 private const val APP_PACKAGE = "sample.study.happytwitter.mock"
-private const val PHONE_PACKAGE = "com.sonyericsson.android.socialphonebook"
+private const val PHONE_PACKAGE = "com.android.phone"
 private const val LAUNCH_TIMEOUT = 5000L
 private const val TAG = "UiAutomator"
 
@@ -132,7 +132,7 @@ class UiAutomatorSystemTests {
         }
 
         sleep(2000)
-        val phoneCallButton = mDevice.findObject(By.res(PHONE_PACKAGE, "call_button"))
+        val phoneCallButton = mDevice.findObject(By.res(PHONE_PACKAGE, "dialpad_floating_action_button"))
         assert(phoneCallButton.isClickable)
     }
 

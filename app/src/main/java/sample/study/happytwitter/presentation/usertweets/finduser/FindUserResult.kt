@@ -14,6 +14,9 @@ sealed class FindUserResult : IResult {
     data class Success(val user: TwitterUser) : SearchUserResult()
     object UserNotFound : SearchUserResult()
     object UserDisabled : SearchUserResult()
+    object OverCapacity : SearchUserResult()
+    object NotAuthorized: SearchUserResult()
+    object UserLocked: SearchUserResult()
     data class UnknownError(val error: Throwable) : SearchUserResult()
   }
 }

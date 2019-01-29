@@ -18,6 +18,9 @@ import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UnknownError
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UserDisabled
 import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UserNotFound
+import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.OverCapacity
+import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.NotAuthorized
+import sample.study.happytwitter.presentation.usertweets.finduser.FindUserResult.SearchUserResult.UserLocked
 import sample.study.happytwitter.utils.EspressoIdlingResource
 import sample.study.happytwitter.utils.schedulers.ISchedulerProvider
 import javax.inject.Inject
@@ -58,6 +61,9 @@ class FindUserViewModel @Inject constructor(
               when (TwitterError(error).code) {
                 50 -> UserNotFound
                 63 -> UserDisabled
+                130  -> OverCapacity
+                179 -> NotAuthorized
+                326 -> UserLocked
                 else -> UnknownError(error)
               }
             } else {
@@ -94,6 +100,9 @@ class FindUserViewModel @Inject constructor(
         is FindUserResult.SearchUserResult.Success -> oldState.copy(searchUserNetworking = NetworkingViewState.Success, twitterUser = result.user)
         is FindUserResult.SearchUserResult.UserNotFound -> oldState.copy(searchUserNetworking = NetworkingViewState.Error(FindUserViewState.ERROR_USER_NOT_FOUND))
         is FindUserResult.SearchUserResult.UserDisabled -> oldState.copy(searchUserNetworking = NetworkingViewState.Error(FindUserViewState.ERROR_USER_DISABLED))
+        is FindUserResult.SearchUserResult.OverCapacity -> oldState.copy(searchUserNetworking = NetworkingViewState.Error(FindUserViewState.ERROR_OVER_CAPACITY))
+        is FindUserResult.SearchUserResult.NotAuthorized -> oldState.copy(searchUserNetworking = NetworkingViewState.Error(FindUserViewState.ERROR_NOT_AUTHORIZED))
+        is FindUserResult.SearchUserResult.UserLocked -> oldState.copy(searchUserNetworking = NetworkingViewState.Error(FindUserViewState.ERROR_USER_LOCKED))
         is FindUserResult.SearchUserResult.UnknownError -> oldState.copy(searchUserNetworking = NetworkingViewState.Error(result.error.message))
       }
     }

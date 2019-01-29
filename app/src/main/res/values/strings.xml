@@ -2,11 +2,15 @@
   <string name="app_name">HappyTwitter</string>
 
   <!-- Usertweets -->
-  <string name="usertweets_finduser_username_hint">AndrehST</string>
+  <string name="usertweets_finduser_username_hint">DevTests</string>
   <string name="usertweets_finduser_search_button">Search</string>
   <string name="usertweets_finduser_call_button">Call us</string>
   <string name="usertweets_finduser_error_user_not_found">User not found.</string>
-  <string name="usertweets_finduser_error_user_disabled">User disabled.</string>
+  <string name="usertweets_finduser_error_user_disabled">Account disabled.</string>
+  <string name="usertweets_finduser_error_over_capacity">Twitter is over capacity, please try again later</string>
+  <string name="usertweets_finduser_error_not_authorized">Sorry, you are not authorized to see this status</string>
+  <string name="usertweets_finduser_error_user_locked">To protect our users from spam and other malicious activity, this account is temporarily locked.</string>
+
 
   <!-- Tweetlist -->
   <string name="tweetlist_secured_tweets">Tweets from this user are private</string>

@@ -33,7 +33,7 @@ class TweetsListInstrumented:GenericTestClass() {
         // First scroll to the position that needs to be matched and click on it.
         onView(ViewMatchers.withId(R.id.tweets_recyclerview))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
-        CommonTestFunctions.assertElementIsDisplayed("JOYFUL to meet you at Venturus!")
+        CommonTestFunctions.assertElementIsDisplayed("JOYFUL to meet you at DevTests!")
     }
 
     @Test

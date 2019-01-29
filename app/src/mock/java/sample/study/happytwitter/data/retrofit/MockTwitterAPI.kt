@@ -28,7 +28,43 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
       val errorBody = Gson().toJson(disabledError)
 
       return Single.create {
-        Timer().schedule(delay = 3000){
+        Timer().schedule(delay = 2000){
+          it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
+                  ResponseBody.create(MediaType.parse(""), errorBody))))
+        }
+      }
+    }
+
+    if(screenName == "full"){
+      val disabledError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(130, null)))
+      val errorBody = Gson().toJson(disabledError)
+
+      return Single.create {
+        Timer().schedule(delay = 2000){
+          it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
+                  ResponseBody.create(MediaType.parse(""), errorBody))))
+        }
+      }
+    }
+
+    if(screenName == "curious"){
+      val disabledError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(179, null)))
+      val errorBody = Gson().toJson(disabledError)
+
+      return Single.create {
+        Timer().schedule(delay = 2000){
+          it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
+                  ResponseBody.create(MediaType.parse(""), errorBody))))
+        }
+      }
+    }
+
+    if(screenName == "gate"){
+      val disabledError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(326, null)))
+      val errorBody = Gson().toJson(disabledError)
+
+      return Single.create {
+        Timer().schedule(delay = 2000){
           it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
                   ResponseBody.create(MediaType.parse(""), errorBody))))
         }
@@ -44,7 +80,7 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
     val errorBody = Gson().toJson(notFoundError)
 
     return Single.create {
-      Timer().schedule(delay = 3000) {
+      Timer().schedule(delay = 2000) {
         it.onError(HttpException(Response.error<TwitterUser>(HttpURLConnection.HTTP_BAD_REQUEST,
                 ResponseBody.create(MediaType.parse(""), errorBody))))
       }
@@ -53,11 +89,9 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
 
   override fun getTweetsByUser(screenName: String): Single<List<TwitterTweet>> {
 
-    //TODO: to handle 401 error message - private account
-
     if(screenName == "private"){
       return Single.create {
-        Timer().schedule(delay = 5000) {
+        Timer().schedule(delay = 3000) {
         it.onError(HttpException(Response.error<TweetListResult>(HttpURLConnection.HTTP_UNAUTHORIZED,
                 ResponseBody.create(MediaType.parse(""),""))))}
         }

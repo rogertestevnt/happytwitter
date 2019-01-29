@@ -15,5 +15,8 @@ data class FindUserViewState(
   companion object {
     const val ERROR_USER_NOT_FOUND = "ERROR_USER_NOT_FOUND"
     const val ERROR_USER_DISABLED = "ERROR_USER_DISABLED"
+    const val ERROR_OVER_CAPACITY = "ERROR_OVER_CAPACITY"
+    const val ERROR_NOT_AUTHORIZED = "ERROR_NOT_AUTHORIZED"
+    const val ERROR_USER_LOCKED = "ERROR_USER_LOCKED"
   }
 }
