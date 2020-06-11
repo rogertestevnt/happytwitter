@@ -3,6 +3,7 @@ package sample.study.happytwitter.uiautomator
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
+import android.net.wifi.WifiManager.ACTION_PICK_WIFI_NETWORK
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
@@ -12,20 +13,22 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.By
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.Until
-import android.util.Log
 import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
 import java.lang.Thread.sleep
 
 
-private const val APP_PACKAGE = "sample.study.happytwitter.mock"
-private const val PHONE_PACKAGE = "com.sonyericsson.android.socialphonebook"
+private const val APP_PACKAGE = "com.android.settings"
+private const val PHONE_PACKAGE = "com.android.settings"
 private const val LAUNCH_TIMEOUT = 5000L
 private const val TAG = "UiAutomator"
 
@@ -39,11 +42,13 @@ class UiAutomatorSystemTests {
     private lateinit var context: Context
     private lateinit var intent: Intent
 
+
     @get:Rule
     var testName = TestName()
 
     @Before
     fun beforeRun() {
+
         // Initialize UiDevice instance
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
@@ -57,8 +62,6 @@ class UiAutomatorSystemTests {
                 Until.hasObject(By.pkg(launcherPackage).depth(0)),
                 LAUNCH_TIMEOUT
         )
-
-        // Launch the app
         context = InstrumentationRegistry.getContext()
         intent = context.packageManager.getLaunchIntentForPackage(APP_PACKAGE).apply {
             // Clear out any previous instances
@@ -72,80 +75,46 @@ class UiAutomatorSystemTests {
     }
 
     @Test
-    fun verifyTurnWiFiOffAndLaunchApp(){
+    fun verifyTurnWiFiOnAndConnect(){
 
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val network = wifiManager.connectionInfo
-        if (wifiManager.isWifiEnabled){
-            val networkName = network.ssid
-            Log.v(TAG, "connected to WiFi SSID:" + " " + networkName.toString())
-            try{
-                wifiManager.disconnect()
-                wifiManager.disableNetwork(network.networkId)
-                Log.v(TAG, "Wi-Fi disconnected")
-            }catch (e:Exception){
-                Log.e(TAG, testName.methodName + ":" +
-                        "Wi-Fi disconnected throws error:" + e.message)
+
+        if (!wifiManager.isWifiEnabled) {
+            wifiManager.isWifiEnabled = true
+        }
+
+        sleep (3000)
+        context.startActivity(Intent(ACTION_PICK_WIFI_NETWORK))
+        sleep(8000)
+        val fileContents = readFile()
+        mDevice.findObject(By.text(fileContents[0])).click()
+        sleep (2000)
+        mDevice.findObject(By.focused(true))
+                .setText(fileContents[1])
+        mDevice.findObject(By.text("Connect")).click()
+
+        //Verify if it is connected
+//        assertThat(wifiManager.connectionInfo.networkId, not (equalTo(-1)))
+
+    }
+
+    private fun readFile(): Array<String> {
+        val file = File("/data/local/tmp/wifiInfo.txt")
+        val content = arrayOf("","")
+
+        if (file.exists()) {
+
+            val br = BufferedReader(FileReader(file))
+            var i = 0
+            var line: String?=null
+            while (br.readLine().also { line = it } != null) {
+                content[i] = line.toString().trim()
+                i++
             }
         }
 
-        launchApp()
+        return  content
 
-        try{
-            wifiManager.enableNetwork(network.networkId, true)
-            wifiManager.reconnect()
-            Log.v(TAG, "Wi-Fi reconnected")
-        }catch (e:Exception){
-            Log.e(TAG, testName.methodName + ":" +
-                    "Wi-Fi reconnected throws error:" + e.message)
-        }
-    }
-
-    @Test
-    fun verifyMinimizeAppAndLaunchFromRecentApps(){
-        launchApp()
-        mDevice.pressHome()
-        mDevice.pressRecentApps()
-        sleep(1000)
-        val app = mDevice.findObject(By.text("MockHTW"))
-        app.click()
-        sleep(1000)
-        val userNameField = mDevice.findObject(By.res(
-                APP_PACKAGE, "username_edittext"))
-        assert(userNameField.isClickable)
-    }
-
-    @Test
-    fun verifyLaunchPhonePackageFromCallButton(){
-        /**
-         * Test result may fail depending on the Android customization
-         * found in the device under test
-         * Use "adb shell pm list packages -f phone" to get the phone package name
-         */
-        launchApp()
-        val appCallButton = mDevice.findObject(By.res(
-                APP_PACKAGE, "call_button"))
-        try{
-            appCallButton.click()
-        }catch (e:Exception){
-            Log.e(TAG, testName.methodName + ":" + e.message)
-        }
-
-        sleep(2000)
-        val phoneCallButton = mDevice.findObject(By.res(PHONE_PACKAGE, "call_button"))
-        assert(phoneCallButton.isClickable)
-    }
-
-    private fun launchApp(){
-        context.startActivity(intent)
-
-        // Wait for the app to appear
-        mDevice.wait(
-                Until.hasObject(By.pkg(APP_PACKAGE).depth(0)),
-                LAUNCH_TIMEOUT
-        )
-
-        sleep(3000)
     }
 
 }
