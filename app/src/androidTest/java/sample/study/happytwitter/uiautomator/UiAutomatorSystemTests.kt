@@ -6,7 +6,6 @@ import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.ACTION_PICK_WIFI_NETWORK
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import android.support.test.filters.LargeTest
 import android.support.test.filters.RequiresDevice
 import android.support.test.runner.AndroidJUnit4
@@ -14,7 +13,6 @@ import android.support.test.uiautomator.By
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.Until
 import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
