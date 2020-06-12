@@ -6,6 +6,7 @@ import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.ACTION_PICK_WIFI_NETWORK
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import android.support.test.filters.LargeTest
 import android.support.test.filters.RequiresDevice
 import android.support.test.runner.AndroidJUnit4
@@ -13,6 +14,7 @@ import android.support.test.uiautomator.By
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.Until
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -81,6 +83,8 @@ class UiAutomatorSystemTests {
             wifiManager.isWifiEnabled = true
         }
 
+        assertThat(wifiManager.connectionInfo.supplicantState.name, `is` (equalTo("DISCONNECTED")))
+
         sleep (3000)
         context.startActivity(Intent(ACTION_PICK_WIFI_NETWORK))
         sleep(8000)
@@ -92,7 +96,8 @@ class UiAutomatorSystemTests {
         mDevice.findObject(By.text("Connect")).click()
 
         //Verify if it is connected
-//        assertThat(wifiManager.connectionInfo.networkId, not (equalTo(-1)))
+        sleep(3000)
+        assertThat(wifiManager.connectionInfo.supplicantState.name, `is` (equalTo("COMPLETED")))
 
     }
 
