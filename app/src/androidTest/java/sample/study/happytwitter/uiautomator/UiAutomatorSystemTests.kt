@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.ACTION_PICK_WIFI_NETWORK
 import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import android.support.test.filters.LargeTest
 import android.support.test.filters.RequiresDevice
@@ -13,7 +12,6 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.test.uiautomator.By
 import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.Until
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.*
 import org.junit.After
 import org.junit.Before
@@ -28,7 +26,6 @@ import java.lang.Thread.sleep
 
 
 private const val APP_PACKAGE = "com.android.settings"
-private const val PHONE_PACKAGE = "com.android.settings"
 private const val LAUNCH_TIMEOUT = 5000L
 private const val TAG = "UiAutomator"
 
@@ -41,7 +38,6 @@ class UiAutomatorSystemTests {
     private lateinit var mDevice: UiDevice
     private lateinit var context: Context
     private lateinit var intent: Intent
-
 
     @get:Rule
     var testName = TestName()
@@ -57,7 +53,7 @@ class UiAutomatorSystemTests {
 
         // Wait for launcher
         val launcherPackage: String = mDevice.launcherPackageName
-        ViewMatchers.assertThat(launcherPackage, CoreMatchers.notNullValue())
+        assertThat(launcherPackage, notNullValue())
         mDevice.wait(
                 Until.hasObject(By.pkg(launcherPackage).depth(0)),
                 LAUNCH_TIMEOUT
@@ -71,7 +67,7 @@ class UiAutomatorSystemTests {
 
     @After
     fun afterRun(){
-        //TODO: to be implemented
+        mDevice.pressHome()
     }
 
     @Test
