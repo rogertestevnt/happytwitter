@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 private const val CHROME_PACKAGE = "com.android.chrome"
-private const val LAUNCH_TIMEOUT = 5000L
+private const val LAUNCH_TIMEOUT = 10000L
 
 @LargeTest
 @RequiresDevice
@@ -62,7 +62,14 @@ class UiAutomatorLaunchChrome {
         Thread.sleep(1000)
         mDevice.findObject(By.text("Next")).click()
         Thread.sleep(1000)
-        mDevice.findObject(By.text("No thanks")).click()
+
+        if (mDevice.findObject(By.text("No thanks")) != null) {
+            mDevice.findObject(By.text("No thanks")).click()
+        }
+
+        if (mDevice.findObject(By.text("No Thanks")) != null) {
+            mDevice.findObject(By.text("No Thanks")).click()
+        }
     }
 
 }

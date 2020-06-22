@@ -26,7 +26,7 @@ import java.lang.Thread.sleep
 
 
 private const val APP_PACKAGE = "com.android.settings"
-private const val LAUNCH_TIMEOUT = 5000L
+private const val LAUNCH_TIMEOUT = 10000L
 private const val TAG = "UiAutomator"
 
 

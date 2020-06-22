@@ -18,7 +18,7 @@ import java.lang.Thread.sleep
 
 
 private const val SBROWSER_PACKAGE = "com.sec.android.app.sbrowser"
-private const val LAUNCH_TIMEOUT = 5000L
+private const val LAUNCH_TIMEOUT = 10000L
 
 class UiAutomatorLaunchSBrowser {
 
@@ -65,8 +65,16 @@ class UiAutomatorLaunchSBrowser {
         if (isAppInstalled) {
             mDevice.pressHome()
             context.startActivity(intent)
-            sleep(6000)
-            mDevice.findObject(By.res(SBROWSER_PACKAGE,"help_intro_legal_agree_button")).click()
+            sleep(10000)
+
+            if (mDevice.findObject(By.res(SBROWSER_PACKAGE,"help_intro_legal_agree_button")) != null){
+                mDevice.findObject(By.res(SBROWSER_PACKAGE,"help_intro_legal_agree_button")).click()
+            }
+
+            if (mDevice.findObject(By.text("Remind me later")) != null) {
+                mDevice.findObject(By.text("Remind me later")).click()
+            }
+
         }
     }
 
