@@ -86,10 +86,20 @@ class UiAutomatorSystemTests {
         sleep(8000)
         val fileContents = readFile()
         mDevice.findObject(By.text(fileContents[0])).click()
-        sleep (2000)
-        mDevice.findObject(By.focused(true))
-                .setText(fileContents[1])
-        mDevice.findObject(By.text("Connect")).click()
+        sleep (5000)
+
+        if (mDevice.findObject(By.focused(true)) != null) {
+            mDevice.findObject(By.focused(true))
+                    .setText(fileContents[1])
+        }
+
+        if (mDevice.findObject(By.text("Connect")) != null) {
+            mDevice.findObject(By.text("Connect")).click()
+        }
+
+        if (mDevice.findObject(By.text("CONNECT")) != null) {
+            mDevice.findObject(By.text("CONNECT")).click()
+        }
 
         //Verify if it is connected
         sleep(3000)

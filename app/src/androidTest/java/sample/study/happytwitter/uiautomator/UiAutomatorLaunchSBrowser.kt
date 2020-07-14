@@ -75,6 +75,10 @@ class UiAutomatorLaunchSBrowser {
                 mDevice.findObject(By.text("Remind me later")).click()
             }
 
+            if (mDevice.findObject(By.text("REMIND ME LATER")) != null) {
+                mDevice.findObject(By.text("REMIND ME LATER")).click()
+            }
+
         }
     }
 

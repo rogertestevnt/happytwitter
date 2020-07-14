@@ -58,7 +58,13 @@ class UiAutomatorLaunchChrome {
         mDevice.pressHome()
         context.startActivity(intent)
         mDevice.wait(Until.hasObject(By.pkg(CHROME_PACKAGE).depth(0)), LAUNCH_TIMEOUT)
-        mDevice.findObject(By.res(CHROME_PACKAGE,"terms_accept")).click()
+
+        if ( mDevice.findObject(By.res(CHROME_PACKAGE,"terms_accept")) != null) {
+            mDevice.findObject(By.res(CHROME_PACKAGE,"terms_accept")).click()
+        }else{
+            mDevice.findObject(By.text("Accept & continue")).click()
+        }
+
         Thread.sleep(1000)
         mDevice.findObject(By.text("Next")).click()
         Thread.sleep(1000)
@@ -69,6 +75,10 @@ class UiAutomatorLaunchChrome {
 
         if (mDevice.findObject(By.text("No Thanks")) != null) {
             mDevice.findObject(By.text("No Thanks")).click()
+        }
+
+        if (mDevice.findObject(By.text("NO THANKS")) != null) {
+            mDevice.findObject(By.text("NO THANKS")).click()
         }
     }
 
