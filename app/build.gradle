@@ -49,6 +49,7 @@ android {
       resValue "string", "app_short_name", "MockHTW"
     }
   }
+  buildToolsVersion '28.0.2'
 }
 
 

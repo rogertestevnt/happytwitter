@@ -16,8 +16,10 @@ import sample.study.happytwitter.utils.CommonTestFunctions
 @RunWith(AndroidJUnit4::class)
 class TwitterSearchInstrumented : GenericTestClass() {
 
-    private var invalidTwitterName: String = "abc"
-    private val disabledTwitterName: String = "disabled"
+    companion object {
+        private const val invalidTwitterName = "abc"
+        private const val disabledTwitterName = "disabled"
+    }
 
     @Test
     fun verifyTwitterSearchView() {

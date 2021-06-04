@@ -15,16 +15,15 @@ import sample.study.happytwitter.presentation.usertweets.tweetlist.TweetListResu
 import java.net.HttpURLConnection
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
 
 class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunctions) : TwitterAPI {
 
   override fun getUser(screenName: String): Single<TwitterUser> {
     if(screenName == "disabled"){
-      val disabledError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(63, null)))
+      val disabledError = TwitterError.TwitterErrorList(listOf(TwitterError.
+      TwitterErrorItem(63, null)))
       val errorBody = Gson().toJson(disabledError)
 
       return Single.create {
@@ -35,12 +34,14 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
       }
     }
 
-    val user = jsonFunctions.jsonContents.find { it.screen_name.toLowerCase() == screenName.toLowerCase() }
+    val user = jsonFunctions.jsonContents.find {
+      it.screen_name.toLowerCase() == screenName.toLowerCase() }
     if(user != null) {
       return Single.just(user).delay(5, TimeUnit.SECONDS)
     }
 
-    val notFoundError = TwitterError.TwitterErrorList(listOf(TwitterError.TwitterErrorItem(50, "not found")))
+    val notFoundError = TwitterError.TwitterErrorList(listOf(TwitterError.
+    TwitterErrorItem(50, "not found")))
     val errorBody = Gson().toJson(notFoundError)
 
     return Single.create {
@@ -53,8 +54,6 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
 
   override fun getTweetsByUser(screenName: String): Single<List<TwitterTweet>> {
 
-    //TODO: to handle 401 error message - private account
-
     if(screenName == "private"){
       return Single.create {
         Timer().schedule(delay = 5000) {
@@ -64,7 +63,8 @@ class MockTwitterAPI @Inject constructor(private val jsonFunctions: JsonFunction
     }
 
     //Read the tweets list from file tweets.json
-    val tweets = jsonFunctions.jsonTweetsListContents.filter { it.screen_name?.toLowerCase() == screenName.toLowerCase() }
+    val tweets = jsonFunctions.jsonTweetsListContents.filter {
+      it.screen_name?.toLowerCase() == screenName.toLowerCase() }
     return Single.just(tweets).delay(5, TimeUnit.SECONDS)
   }
 }

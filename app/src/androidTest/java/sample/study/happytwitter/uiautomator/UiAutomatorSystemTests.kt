@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.assertThat
 import android.support.test.filters.LargeTest
 import android.support.test.filters.RequiresDevice
 import android.support.test.runner.AndroidJUnit4
@@ -14,18 +13,14 @@ import android.support.test.uiautomator.UiDevice
 import android.support.test.uiautomator.Until
 import android.util.Log
 import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.notNullValue
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
 
 private const val APP_PACKAGE = "sample.study.happytwitter.mock"
-private const val PHONE_PACKAGE = "com.sonyericsson.android.socialphonebook"
+private const val PHONE_PACKAGE = "com.android.phone"
 private const val LAUNCH_TIMEOUT = 5000L
 private const val TAG = "UiAutomator"
 
@@ -115,6 +110,7 @@ class UiAutomatorSystemTests {
         assert(userNameField.isClickable)
     }
 
+    @Ignore
     @Test
     fun verifyLaunchPhonePackageFromCallButton(){
         /**
