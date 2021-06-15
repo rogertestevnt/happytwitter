@@ -15,6 +15,9 @@ import org.junit.runner.RunWith
 import sample.study.happytwitter.R
 import sample.study.happytwitter.instrumented.GenericTestClass
 import sample.study.happytwitter.utils.CommonTestFunctions
+import sample.study.happytwitter.utils.CommonTestFunctions.Companion.assertElementIsDisplayed
+import sample.study.happytwitter.utils.CommonTestFunctions.Companion.clickElementOnView
+import sample.study.happytwitter.utils.CommonTestFunctions.Companion.typeText
 import sample.study.happytwitter.utils.DrawableMatchers
 import sample.study.happytwitter.utils.RecyclerViewMatcher
 
@@ -29,40 +32,35 @@ class TweetsListInstrumented:GenericTestClass() {
 
     @Test
     fun verifyScrollToItemByPositionAndVerifyText() {
-        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
-        // First scroll to the position that needs to be matched and click on it.
-        onView(ViewMatchers.withId(R.id.tweets_recyclerview))
-                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
-        CommonTestFunctions.assertElementIsDisplayed("JOYFUL to meet you at Dextra!")
+        typeText(R.id.username_edittext, validTwitterName)
+        clickElementOnView(R.id.tweets_recyclerview,POSITION)
+        assertElementIsDisplayed("JOYFUL to meet you at Dextra!")
     }
 
     @Test
     fun testVerifyImageViewIsDisplayed(){
-        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
-        onView(ViewMatchers.withId(R.id.tweets_recyclerview))
-                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(POSITION, click()))
-        onView(AllOf.allOf(withId(R.id.tweet_sentiment_imageview),
-                isDescendantOfA(RecyclerViewMatcher(R.id.tweets_recyclerview).atPosition(POSITION))))
-                .check(ViewAssertions.matches(isDisplayed()))
+        typeText(R.id.username_edittext, validTwitterName)
+        clickElementOnView(R.id.tweets_recyclerview,POSITION)
+        assertElementIsDisplayed(R.id.tweet_sentiment_imageview,R.id.tweets_recyclerview, POSITION)
     }
 
     @Test
     fun testVerifyHappyIconIsDisplayed(){
-        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        typeText(R.id.username_edittext, validTwitterName)
         scrollListToPositionAndPerformClick(POSITION)
         assertSentimentIconIsDisplayed(R.drawable.sentiment_happy_icon, POSITION)
     }
 
     @Test
     fun testVerifySadIconIsDisplayed(){
-        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        typeText(R.id.username_edittext, validTwitterName)
         scrollListToPositionAndPerformClick(POSITION - 4)
         assertSentimentIconIsDisplayed(R.drawable.sentiment_sad_icon, POSITION - 4)
     }
 
     @Test
     fun testVerifyNeutralIconIsDisplayed(){
-        CommonTestFunctions.typeText(R.id.username_edittext, validTwitterName)
+        typeText(R.id.username_edittext, validTwitterName)
         scrollListToPositionAndPerformClick(0)
         assertSentimentIconIsDisplayed(R.drawable.sentiment_neutral_icon, 0)
     }

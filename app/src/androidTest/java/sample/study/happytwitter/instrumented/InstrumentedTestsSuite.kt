@@ -8,7 +8,7 @@ import sample.study.happytwitter.instrumented.twitersearch.TwitterSearchInstrume
 import sample.study.happytwitter.uiautomator.UiAutomatorSystemTests
 
 @RunWith(Suite::class)
-@Ignore("To be used inside as part of continuous integration")
+@Ignore("To be used as part of continuous integration")
 @Suite.SuiteClasses(
         TweetsListInstrumented::class,
         TwitterSearchInstrumented::class,

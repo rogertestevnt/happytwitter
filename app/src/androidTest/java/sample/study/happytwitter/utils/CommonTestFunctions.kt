@@ -7,13 +7,17 @@ import android.support.test.espresso.UiController
 import android.support.test.espresso.ViewAction
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
+import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
+import sample.study.happytwitter.R
+import sample.study.happytwitter.instrumented.tweetslist.TweetsListInstrumented
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,13 +59,24 @@ class CommonTestFunctions internal constructor() {
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         }
 
+        fun assertElementIsDisplayed(elementId: Int,recyclerViewId: Int, position: Int){
+            onView(AllOf.allOf(
+                ViewMatchers.withId(elementId),
+                ViewMatchers.isDescendantOfA(
+                    RecyclerViewMatcher(recyclerViewId).atPosition(
+                        position
+                    )
+                )
+            )).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }
+
         fun assertElementIsDisplayedOnView(elementId: Int) {
-            Espresso.onView(AllOf.allOf(ViewMatchers.withId(elementId), ViewMatchers.isCompletelyDisplayed()))
+            onView(AllOf.allOf(ViewMatchers.withId(elementId), ViewMatchers.isCompletelyDisplayed()))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         }
 
         fun assertElementIsDisplayedOnView(text: String) {
-            Espresso.onView(AllOf.allOf(ViewMatchers.withText(text), ViewMatchers.isCompletelyDisplayed()))
+            onView(AllOf.allOf(ViewMatchers.withText(text), ViewMatchers.isCompletelyDisplayed()))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         }
 
@@ -131,6 +146,14 @@ class CommonTestFunctions internal constructor() {
             onView(AllOf.allOf(ViewMatchers.withText(text), ViewMatchers.isCompletelyDisplayed()))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
                     .perform(ViewActions.click())
+        }
+
+        fun clickElementOnView(elementId: Int, elementPosition: Int) {
+            onView(ViewMatchers.withId(elementId))
+                .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    elementPosition,
+                    ViewActions.click()
+                ))
         }
 
 

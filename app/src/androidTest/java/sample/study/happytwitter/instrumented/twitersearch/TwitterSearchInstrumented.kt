@@ -10,6 +10,8 @@ import sample.study.happytwitter.R
 import sample.study.happytwitter.instrumented.GenericTestClass
 import sample.study.happytwitter.instrumented.TAG
 import sample.study.happytwitter.utils.CommonTestFunctions
+import sample.study.happytwitter.utils.CommonTestFunctions.Companion.assertElementIsDisplayed
+import sample.study.happytwitter.utils.CommonTestFunctions.Companion.pressBack
 
 
 @LargeTest
@@ -23,28 +25,28 @@ class TwitterSearchInstrumented : GenericTestClass() {
 
     @Test
     fun verifyTwitterSearchView() {
-        CommonTestFunctions.assertElementIsDisplayed(R.id.username_edittext)
-        CommonTestFunctions.assertElementIsDisplayed(R.id.search_user_button)
-        CommonTestFunctions.assertElementIsDisplayed(R.id.imageView)
+        assertElementIsDisplayed(R.id.username_edittext)
+        assertElementIsDisplayed(R.id.search_user_button)
+        assertElementIsDisplayed(R.id.imageView)
     }
 
     @Test
     fun verifyInvalidTwitterNameMsg() {
         typeUser(invalidTwitterName)
-        CommonTestFunctions.assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_user_not_found))
+        assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_user_not_found))
     }
 
     @Test
     fun verifyDisabledTwitterNameMsg() {
         typeUser(disabledTwitterName)
-        CommonTestFunctions.assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_user_disabled))
+        assertElementIsDisplayed(context.getString(R.string.usertweets_finduser_error_user_disabled))
     }
 
     @Test
     fun verifyValidTwitterUser() {
         typeUser(validTwitterName)
-        CommonTestFunctions.assertElementIsDisplayed(R.id.profile_picture_imageview)
-        CommonTestFunctions.pressBack()
+        assertElementIsDisplayed(R.id.profile_picture_imageview)
+        pressBack()
     }
 
     @Test
@@ -52,8 +54,8 @@ class TwitterSearchInstrumented : GenericTestClass() {
         val users = jsonFunctions.jsonContents
         users.forEach  {
             typeUser(it.screen_name)
-            CommonTestFunctions.assertElementIsDisplayed(R.id.profile_picture_imageview)
-            CommonTestFunctions.pressBack()
+            assertElementIsDisplayed(R.id.profile_picture_imageview)
+            pressBack()
         }
     }
 
