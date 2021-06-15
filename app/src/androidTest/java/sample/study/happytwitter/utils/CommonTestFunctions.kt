@@ -1,5 +1,7 @@
 package sample.study.happytwitter.utils
 
+import android.app.Activity
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.NoMatchingViewException
@@ -10,14 +12,16 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import android.support.test.runner.lifecycle.Stage
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.TextView
+import com.jraska.falcon.FalconSpoonRule
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf
-import sample.study.happytwitter.R
-import sample.study.happytwitter.instrumented.tweetslist.TweetsListInstrumented
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -156,7 +160,6 @@ class CommonTestFunctions internal constructor() {
                 ))
         }
 
-
         fun swipeRight(elementId: Int) {
             onView(ViewMatchers.withId(elementId))
                     .check(ViewAssertions.matches(ViewMatchers.isEnabled()))
@@ -231,6 +234,22 @@ class CommonTestFunctions internal constructor() {
         fun getFileName(testName: String): String {
             val date = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
             return testName + "_" + date
+        }
+
+        fun getCurrentActivity(): Activity? {
+            val currentActivity = arrayOf<Activity?>(null)
+            InstrumentationRegistry.getInstrumentation().runOnMainSync {
+                val resumedActivity = ActivityLifecycleMonitorRegistry.getInstance()
+                    .getActivitiesInStage(Stage.RESUMED)
+                val it: Iterator<Activity> = resumedActivity.iterator()
+                currentActivity[0] = it.next()
+            }
+            return currentActivity[0]
+        }
+
+        fun screenShot(rule: FalconSpoonRule, tag: String) {
+            rule.screenshot(getCurrentActivity(), tag)
+            Log.i("asd", "Screenshot taken: $tag")
         }
     }
 }
